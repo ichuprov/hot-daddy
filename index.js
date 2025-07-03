@@ -1,13 +1,9 @@
-const {
-  Client, GatewayIntentBits, Partials, Events, REST, Routes, MessageFlags, ChannelType
-} = require('discord.js');
-
-const config = require('./config');
-const { db, checkAdminPermission, getSetting, setSetting } = require('./db');
-
-const groupCommands = require('./commands/groupCommands');
-const comboCommands = require('./commands/comboCommands');
-const topicCommands = require('./commands/topicCommands');
+import { Client, GatewayIntentBits, Partials, Events, REST, Routes, MessageFlags, ChannelType } from 'discord.js';
+import config from './config.js';
+import { checkAdminPermission, getSetting, setSetting } from './db.js';
+import * as groupCommands from './commands/groupCommands.js';
+import * as comboCommands from './commands/comboCommands.js';
+import * as topicCommands from './commands/topicCommands.js';
 
 const client = new Client({
   intents: [
@@ -99,7 +95,6 @@ client.on(Events.GuildCreate, async (guild) => {
 client.on(Events.InteractionCreate, async interaction => {
   try {
     if (interaction.isChatInputCommand()) {
-      // FIXED: Reverted to a simple switch statement for reliability.
       switch (interaction.commandName) {
         // Group Commands
         case 'creategroup':
