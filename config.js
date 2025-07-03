@@ -1,4 +1,4 @@
-require('dotenv').config();
+import 'dotenv/config';
 
 // Validate that all necessary environment variables are set
 const requiredEnv = [
@@ -15,7 +15,7 @@ for (const envVar of requiredEnv) {
   }
 }
 
-module.exports = {
+const config = {
   token: process.env.TOKEN,
   clientId: process.env.CLIENT_ID,
   guildId: process.env.GUILD_ID,
@@ -23,3 +23,5 @@ module.exports = {
   welcomeChannelId: process.env.WELCOME_CHANNEL_ID,
   groupCategoryId: process.env.GROUP_CATEGORY_ID,
 };
+
+export default config;

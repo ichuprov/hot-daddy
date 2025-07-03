@@ -1,10 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const Database = require('better-sqlite3');
+import fs from 'fs';
+import path from 'path';
+import Database from 'better-sqlite3';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const db = new Database(path.join(__dirname, 'hot-daddy.db'));
 
-// 1. Create a table to track which migrations have been run.
 db.exec(`
   CREATE TABLE IF NOT EXISTS _migrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,28 +16,24 @@ db.exec(`
   )
 `);
 
-// 2. Get the list of migrations that have already been run from the database.
 const appliedMigrations = db.prepare('SELECT name FROM _migrations').all().map(row => row.name);
 console.log('Already applied migrations:', appliedMigrations.length > 0 ? appliedMigrations.join(', ') : 'None');
 
-// 3. Get the list of all available migration files from the filesystem.
 const migrationsDir = path.join(__dirname, 'migrations');
 const availableMigrations = fs.readdirSync(migrationsDir)
   .filter(file => file.endsWith('.sql'))
-  .sort(); // Sort them alphabetically/numerically
+  .sort();
 
 console.log('Found migration files:', availableMigrations.join(', '));
 
-// 4. Determine which migrations to run.
 const migrationsToRun = availableMigrations.filter(file => !appliedMigrations.includes(file));
 
 if (migrationsToRun.length === 0) {
   console.log('Database is already up to date.');
   db.close();
-  return;
+  process.exit(0);
 }
 
-// 5. Run each new migration inside a transaction.
 console.log('Applying new migrations:', migrationsToRun.join(', '));
 migrationsToRun.forEach(file => {
   const migrationPath = path.join(migrationsDir, file);

@@ -1,8 +1,9 @@
 {
   "name": "hot-daddy-bot",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "HoT Daddy bot for the House of Tantra discord group",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
@@ -12,7 +13,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "better-sqlite3": "^12.2.0",
     "discord.js": "^14.21.0",
