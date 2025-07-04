@@ -7,7 +7,8 @@ const requiredEnv = [
     'GUILD_ID', 
     'ANNOUNCE_CHANNEL_ID', 
     'WELCOME_CHANNEL_ID', 
-    'GROUP_CATEGORY_ID'
+    'GROUP_CATEGORY_ID',
+    'DATABASE_PATH'
 ];
 for (const envVar of requiredEnv) {
   if (!process.env[envVar]) {
@@ -22,6 +23,7 @@ const config = {
   announceChannelId: process.env.ANNOUNCE_CHANNEL_ID,
   welcomeChannelId: process.env.WELCOME_CHANNEL_ID,
   groupCategoryId: process.env.GROUP_CATEGORY_ID,
+  databasePath: process.env.DATABASE_PATH
 };
 
 export default config;

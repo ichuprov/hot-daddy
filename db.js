@@ -1,8 +1,9 @@
 import Database from 'better-sqlite3';
 import { customAlphabet } from 'nanoid';
 import { PermissionsBitField, MessageFlags } from 'discord.js';
+import config from './config.js'
 
-export const db = new Database('hot-daddy.db');
+export const db = new Database(config.databasePath);
 export const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 10);
 
 export function getSetting(key) {
