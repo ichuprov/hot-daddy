@@ -4,6 +4,7 @@ import { checkAdminPermission, getSetting, setSetting } from './db.js';
 import * as groupCommands from './commands/groupCommands.js';
 import * as comboCommands from './commands/comboCommands.js';
 import * as topicCommands from './commands/topicCommands.js';
+import net from 'net';
 
 const client = new Client({
   intents: [
@@ -185,5 +186,35 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
 });
+
+const server = net.createServer((socket) => {
+  // This is a simple server that immediately closes any connection.
+  // It's just enough to prove the bot is alive.
+  socket.end();
+}).listen(8080); // Listen on the port we will define in fly.toml
+
+// --- Graceful Shutdown Handler ---
+const gracefulShutdown = async () => {
+  console.log('Shutdown signal received. Shutting down gracefully...');
+  server.close(); // Close the health check server
+
+  const channel = await client.channels.fetch(config.announceChannelId).catch(() => null);
+  if (channel) {
+    try {
+      await channel.send("Feeling a pull from the source code. I have to answer its call. I'll be dreaming of your commands.... brb bitches");
+      console.log('Shutdown message sent.');
+    } catch (e) {
+      console.error('Could not send shutdown message:', e);
+    }
+  }
+  
+  client.destroy();
+  console.log('Disconnected from Discord.');
+  
+  process.exit(0);
+};
+
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
 
 client.login(config.token);

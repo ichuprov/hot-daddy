@@ -16,11 +16,20 @@ primary_region = 'syd'
   auto_extend_size_limit = '10GB'
 
 [[services]]
-  processes = ["app"]
+  processes = ['app']
   protocol = 'tcp'
-  internal_port = 8080
-  min_machines_running = 1
+  internal_port = 8080 # The port our health checker in index.js is listening on
+  
+  # These lines keep it online 24/7
   auto_stop_machines = false
+  min_machines_running = 1
+
+  # NEW: This block tells Fly.io how to check if the bot is healthy.
+  # This satisfies the new requirement from the warning.
+  [[services.tcp_checks]]
+    interval = '15s'    # How often to check
+    timeout = '2s'      # How long to wait for a response
+    grace_period = '30s'# How long to wait after a machine starts before checking
 
 [[vm]]
   memory = '1gb'
