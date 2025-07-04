@@ -31,9 +31,6 @@ primary_region = 'syd'
 [env]
   DATABASE_PATH = "/data/hot-daddy.db"
 
-[deploy]
-  release_command = "npm run migrate"
-
 # This defines your main 'app' process, which is your bot.
 # Because there is no [http_service] section, Fly treats this as a 
 # long-running service that should not be shut down automatically.
