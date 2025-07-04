@@ -25,15 +25,9 @@ export async function handleAddTopicSlash(interaction) {
 }
 
 export async function handleListTopicsSlash(interaction) {
-  // --- DEBUG LOGGING ADDED ---
-  console.log('[DEBUG] Entered handleListTopicsSlash function.'); 
   try {
     await interaction.deferReply();
-    console.log('[DEBUG] Reply has been deferred successfully.');
-
     const topics = getAllTopics();
-    console.log(`[DEBUG] Found ${topics.length} topics.`);
-
     if (topics.length === 0) {
       return interaction.followUp({
         content: 'ℹ️ No server topics have been added yet. An admin can add one with `/addtopic`.'
