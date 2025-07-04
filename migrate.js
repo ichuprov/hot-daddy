@@ -2,11 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import Database from 'better-sqlite3';
 import { fileURLToPath } from 'url';
+import config from './config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const db = new Database(path.join(__dirname, 'hot-daddy.db'));
+const db = new Database(config.databasePath);
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS _migrations (

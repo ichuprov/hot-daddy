@@ -10,7 +10,6 @@ primary_region = 'syd'
 
 [[mounts]]
   source = "hotdaddy_data"
-
   destination = '/data'
   auto_extend_size_threshold = 80
   auto_extend_size_increment = '1GB'
@@ -34,3 +33,9 @@ primary_region = 'syd'
 
 [deploy]
   release_command = "npm run migrate"
+
+# This defines your main 'app' process, which is your bot.
+# Because there is no [http_service] section, Fly treats this as a 
+# long-running service that should not be shut down automatically.
+[processes]
+  app = "npm start"
